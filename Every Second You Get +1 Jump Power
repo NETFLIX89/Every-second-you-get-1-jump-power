@@ -1,0 +1,195 @@
+getgenv().SecureMode = true
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/CustomFIeld/main/RayField.lua'))()
+
+
+local Window = Rayfield:CreateWindow({
+	Name = "You Get +1 Jump Power by Lol123#0030",
+	LoadingTitle = "You Get +1 Jump Power",
+	LoadingSubtitle = "Lol123#0030",
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = Farming, -- Create a custom folder for your hub/game
+		FileName = ""
+	},
+        Discord = {
+        	Enabled = false,
+        	Invite = "", -- The Discord invite code, do not include discord.gg/
+        	RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+        },
+	
+})
+local Tab = Window:CreateTab("Main", 4483362458)
+local Section = Tab:CreateSection("Main")
+local Toggle = Tab:CreateToggle({
+    Name = "Auto Win",
+    CurrentValue = false,
+    Flag = "Auto Win", 
+    Callback = function(Value)
+        getgenv().autoWin = Value
+    end
+})
+
+spawn(function()
+    while wait() do
+      if autoWin then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(16410.6015625, 82357.90625, 267.6266174316406)
+        wait(0.3)  
+      end
+  end
+end)
+
+
+local Toggle = Tab:CreateToggle({
+    Name = "Auto Rebirth",
+    CurrentValue = false,
+    Flag = "Auto Rebirth", 
+    Callback = function(Value)
+        getgenv().autoRebirth = Value
+    end
+})
+
+spawn(function()
+    while wait() do
+      if autoRebirth then
+        game:GetService("ReplicatedStorage").RebirthEvent:FireServer()
+        wait()  
+      end
+  end
+end)
+
+local Tab = Window:CreateTab("Eggs", 4483362458)
+local Section = Tab:CreateSection("Egg")
+
+local eggtable = {}
+
+for i,v in ipairs(game:GetService("Workspace").Eggs:GetChildren()) do
+	if not v.Name:match("Robux") then
+		table.insert(eggtable,v.Name)
+	end
+end
+
+
+local eggtoopen = "iagree"
+Tab:CreateDropdown({
+    Name = "Egg to Open",
+    Options = eggtable,
+    CurrentOption = "",
+    Flag = "Egg to open",
+    Callback = function(Option)
+        eggtoopen = Option
+    end,
+})
+
+local Toggle = Tab:CreateToggle({
+	Name = "Auto Open Egg x1",
+	CurrentValue = false,
+	Flag = "Auto Egg", 
+	Callback = function(Value)
+        getgenv().buyegg2 = Value
+        if Value then
+            buyegg2(eggtoopen)
+        end
+	end
+})
+
+function buyegg2(v)
+    spawn(function()
+        while wait() and getgenv().buyegg2 do 
+            local args = {
+                [1] = v,
+                [2] = "Single"
+            }
+            
+            game:GetService("ReplicatedStorage").RemoteEvents.EggOpened:InvokeServer(unpack(args))
+            wait()    
+        end
+    end)
+end
+
+local Toggle = Tab:CreateToggle({
+	Name = "Auto Open Egg x3",
+	CurrentValue = false,
+	Flag = "Auto Egg", 
+	Callback = function(Value)
+        getgenv().buyegg3 = Value
+        if Value then
+            buyegg3(eggtoopen)
+        end
+	end
+})
+
+function buyegg3(v)
+    spawn(function()
+        while wait() and getgenv().buyegg3 do 
+            local args = {
+                [1] = v,
+                [2] = "Triple"
+            }
+            
+            game:GetService("ReplicatedStorage").RemoteEvents.EggOpened:InvokeServer(unpack(args))
+            wait()    
+        end
+    end)
+end
+
+local Tab = Window:CreateTab("Local Player", 4483362458)
+local Section = Tab:CreateSection("Local Player")
+local Toggle = Tab:CreateToggle({
+    Name = "Toggle WalkSpeed",
+    CurrentValue = false,
+    Flag = "Toggle1", 
+    Callback = function(Value)
+        getgenv().ChangeWalkSpeed = Value
+    end,
+})
+
+local Slider = Tab:CreateSlider({
+    Name = "Change WalkSpeed",
+    Range = {50, 500},
+    Increment = 10,
+    Suffix = "Speed",
+    CurrentValue = 10,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        getgenv().walkSpeed = Value
+    end,
+})
+
+task.spawn(function()
+    while wait() do 
+        if getgenv().walkSpeed ~= nil and getgenv().ChangeWalkSpeed then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().walkSpeed
+        end
+    end
+end)
+
+local Toggle = Tab:CreateToggle({
+    Name = "Toggle JumpPower",
+    CurrentValue = false,
+    Flag = "Toggle2", 
+    Callback = function(Value)
+        getgenv().ChangeJumpPower = Value
+    end,
+})
+
+local Slider = Tab:CreateSlider({
+    Name = "Change JumpPower",
+    Range = {50, 5000},
+    Increment = 10,
+    Suffix = "Jump Power",
+    CurrentValue = 10,
+    Flag = "Slider2", 
+    Callback = function(Value)
+        getgenv().jumpPower = Value
+    end,
+})
+
+task.spawn(function()
+    while wait() do 
+        if getgenv().jumpPower ~= nil and getgenv().ChangeJumpPower then
+            game.Players.LocalPlayer.Character.Humanoid.JumpPower = getgenv().jumpPower
+        end
+    end
+end)
+
+
